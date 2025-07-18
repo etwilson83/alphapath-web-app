@@ -1,0 +1,54 @@
+# azd templates
+azd/
+
+# Local development
+.env
+.env.local
+*.log
+
+# Backend (Go)
+backend/.env
+backend/tmp/
+backend/build-errors.log
+backend/api
+
+# Frontend (Node.js)
+frontend/node_modules/
+frontend/dist/
+frontend/.nuxt/
+frontend/.output/
+frontend/.env
+frontend/.env.local
+
+# Docker
+.docker/
+
+# Terraform
+infra/.terraform/
+infra/.terraform.tfstate.lock.info
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+infra/*.tfplan
+infra/*.tfvars
+!infra/*.tfvars.example
+infra/override.tf
+infra/override.tf.json
+infra/*_override.tf
+infra/*_override.tf.json
+
+# Editor directories and files
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.azure

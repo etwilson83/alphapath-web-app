@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/alpha/azure.yaml.json
+
+name: azd-template-go-vue-pg
+
+services:
+  backend:
+    language: docker
+    project: ./backend
+    host: containerapp
+    docker:
+      registry: "${AZURE_CONTAINER_REGISTRY_ENDPOINT}"
+    hooks:
+      postdeploy:
+        shell: sh
+        run: chmod +x update-frontend-env.sh && ./update-frontend-env.sh
+    
+  frontend:
+    language: docker
+    project: ./frontend
+    host: containerapp
+    docker:
+      registry: "${AZURE_CONTAINER_REGISTRY_ENDPOINT}"
+      buildArgs:
+        - VITE_API_URL=${BACKEND_APP_URL}
+    hooks:
+      prebuild:
+        shell: sh
+        run: |
+          echo "🔧 Setting up frontend environment before build..."
+          # Check if backend URL is available
+          if ! BACKEND_URL=$(azd env get-value BACKEND_APP_URL 2>/dev/null); then
+            echo "❌ ERROR: BACKEND_APP_URL not found in environment"
+            echo ""
+            echo "💡 This happens because the frontend needs the backend URL to build properly."
+            echo "   The backend must be deployed first to generate this URL."
+            echo ""
+            echo "✅ Solution: Use the correct workflow order:"
+            echo "   1. azd provision"
+            echo "   2. azd deploy backend"
+            echo "   3. azd deploy frontend"
+            echo ""
+            echo "   Or use: azd up (which follows the correct order automatically)"
+            exit 1
+          fi
+          echo "📡 Backend URL: $BACKEND_URL"
+          echo "✅ Will pass VITE_API_URL=$BACKEND_URL as Docker build arg"
+
+infra:
+  provider: terraform
+
+workflows:
+  up:
+    steps:
+      - azd: provision
+      - azd: package backend
+      - azd: deploy backend
+      - azd: package frontend
+      - azd: deploy frontend

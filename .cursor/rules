@@ -1,0 +1,130 @@
+# Alpha Path Web UI - Cursor Rules
+
+## Project Overview
+This is a full-stack web application built with:
+- **Backend**: Go (Golang) with a REST API
+- **Frontend**: Vue.js 3 with TypeScript
+- **Infrastructure**: Azure Container Apps, Azure Container Registry, PostgreSQL
+- **Deployment**: Azure Developer CLI (azd) with Terraform
+- **Architecture**: Uses existing Azure resources (Resource Group, Container Registry, Container Apps Environment)
+
+## Key Architecture Decisions
+
+### Infrastructure
+- Terraform ONLY manages application-specific resources (Container Apps, PostgreSQL)
+- Uses existing Azure resources: Resource Group, Container Registry, Container Apps Environment
+- No resource creation for core infrastructure - only data sources for existing resources
+- Container Apps are deployed to existing Container Apps Environment
+
+### Backend (Go)
+- Located in `/backend/`
+- Uses Go modules (`go.mod`, `go.sum`)
+- Main application in `cmd/api/main.go`
+- REST API with handlers in `internal/api/handlers/`
+- Database models in `internal/models/`
+- PostgreSQL database connection
+- Dockerized with multi-stage build
+
+### Frontend (Vue.js)
+- Located in `/frontend/`
+- Vue 3 with TypeScript
+- Uses pnpm for package management
+- Vite for build tooling
+- Environment variables for API URL configuration
+- Dockerized with nginx for production
+
+### Deployment
+- Azure Developer CLI (azd) for building and deploying
+- Custom workflow in `azure.yaml`
+- Backend must be deployed before frontend (dependency)
+- Environment variables passed between services
+- Postdeploy hooks for environment configuration
+
+## Coding Standards
+
+### Go Backend
+- Follow Go conventions and idioms
+- Use proper error handling
+- Structure with `cmd/`, `internal/`, `pkg/` directories
+- Use Go modules for dependency management
+- Include tests for handlers and models
+
+### Vue.js Frontend
+- Use TypeScript for type safety
+- Follow Vue 3 Composition API patterns
+- Use proper component structure
+- Include proper error handling
+- Use environment variables for configuration
+
+### Terraform
+- Use data sources for existing resources
+- Modular structure in `/infra/core/`
+- Proper variable validation
+- Use `main.tfvars.json` for configuration
+- Follow Azure naming conventions
+
+## Important Files and Directories
+
+### Infrastructure
+- `/infra/main.tf` - Main Terraform configuration
+- `/infra/main.tfvars.json` - Terraform variables
+- `/infra/core/` - Terraform modules
+- `/azure.yaml` - Azure Developer CLI configuration
+
+### Backend
+- `/backend/cmd/api/main.go` - Application entry point
+- `/backend/internal/api/handlers/` - HTTP handlers
+- `/backend/internal/models/` - Database models
+- `/backend/Dockerfile` - Container configuration
+- `/backend/update-frontend-env.sh` - Postdeploy script
+
+### Frontend
+- `/frontend/src/` - Source code
+- `/frontend/src/components/` - Vue components
+- `/frontend/src/views/` - Page components
+- `/frontend/Dockerfile` - Container configuration
+- `/frontend/nginx.conf` - Nginx configuration
+
+## Development Workflow
+
+1. **Local Development**: Use `docker-compose.yml` for local development
+2. **Building**: Use `azd package <service>` to build images
+3. **Deployment**: Use `azd deploy <service>` or `azd up` for full deployment
+4. **Infrastructure**: Use `azd provision` to manage Terraform resources
+
+## Environment Variables
+
+### Backend
+- `DATABASE_URL` - PostgreSQL connection string
+- `PORT` - Server port (default: 8080)
+- `FRONTEND_URL` - Frontend application URL
+- `ENVIRONMENT` - Environment name
+
+### Frontend
+- `VITE_API_URL` - Backend API URL (set during deployment)
+
+## Dependencies
+
+### Backend Dependencies
+- Go 1.24+
+- PostgreSQL database
+- Azure Container Registry
+
+### Frontend Dependencies
+- Node.js 20+
+- pnpm package manager
+- Vue 3
+- TypeScript
+
+### Infrastructure Dependencies
+- Azure CLI
+- Azure Developer CLI (azd)
+- Terraform
+- Docker
+
+## Notes
+- The project uses existing Azure infrastructure
+- Container Apps are deployed to existing Container Apps Environment
+- Images are pushed to existing Azure Container Registry
+- Database is provisioned by Terraform
+- Environment variables are automatically configured between services 

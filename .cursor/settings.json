@@ -1,0 +1,81 @@
+{
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "files.associations": {
+    "*.tf": "terraform",
+    "*.tfvars": "terraform",
+    "*.tfvars.json": "json",
+    "*.yaml": "yaml",
+    "*.yml": "yaml",
+    "*.sh": "shellscript",
+    "*.go": "go",
+    "*.vue": "vue"
+  },
+  "emmet.includeLanguages": {
+    "vue": "html",
+    "vue-html": "html"
+  },
+  "go.useLanguageServer": true,
+  "go.lintTool": "golangci-lint",
+  "go.formatTool": "goimports",
+  "go.testOnSave": false,
+  "terraform.languageServer": {
+    "enabled": true,
+    "args": []
+  },
+  "terraform.format.enable": true,
+  "terraform.validate.enable": true,
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/.terraform": true,
+    "**/.azure": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.DS_Store": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/.terraform": true,
+    "**/.azure": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/pnpm-lock.yaml": true,
+    "**/go.sum": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/**": true,
+    "**/.terraform/**": true,
+    "**/.azure/**": true,
+    "**/dist/**": true,
+    "**/build/**": true
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "editor.rulers": [80, 100],
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 100,
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#2a2d2e",
+    "editor.lineHighlightBorder": "#454545"
+  },
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "/bin/zsh",
+      "args": ["-l"]
+    }
+  }
+} 

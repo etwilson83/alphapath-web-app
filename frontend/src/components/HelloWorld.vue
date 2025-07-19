@@ -5,7 +5,8 @@ defineProps<{
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow-xl">
+  Test
+  <!-- <div class="card bg-base-100 shadow-xl">
     <div class="card-body">
       <h1 class="card-title text-neutral-200 text-4xl font-bold">{{ msg }}</h1>
       <p class="text-lg">
@@ -16,7 +17,7 @@ defineProps<{
         <span class="badge badge-accent">DaisyUI</span>
       </p>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
